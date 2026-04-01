@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DepartmentController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'index'])->name('home');
 
@@ -13,24 +14,14 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AppController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/employees', fn () => inertia('employees/index'))->name('employees.index');
+    Route::get('/employees/create', fn () => inertia('employees/create'))->name('employees.create');
+
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+    Route::patch('/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 });
-
-// Route::get('/dashboard', function () {
-//     return inertia('dashboard');
-// })->name('dashboard');
-
-// Route::get('/employees', function () {
-//     return inertia('employees/index');
-// })->name('employees.index');
-
-// Route::get('/employees/create', function () {
-//     return inertia('employees/create');
-// })->name('employees.create');
-
-// Route::get('/departments', function () {
-//     return inertia('departments/index');
-// })->name('departments.index');
-
-// Route::get('/departments/create', function () {
-//     return inertia('departments/create');
-// })->name('departments.create');

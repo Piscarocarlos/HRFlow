@@ -9,12 +9,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { usePage } from '@inertiajs/react';
 
 type AppNavbarProps = {
     onOpenSidebar: () => void;
 };
 
 export default function AppNavbar({ onOpenSidebar }: AppNavbarProps) {
+
+    const { notifications, notificationsNotRead } = usePage().props as any;
+
     return (
         <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -51,15 +55,17 @@ export default function AppNavbar({ onOpenSidebar }: AppNavbarProps) {
                                 className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700"
                             >
                                 <Bell className="h-4 w-4" />
-                                Notifications
+                                Notifications <span className="text-xs text-red-500">{notificationsNotRead.length}</span>
                             </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-72">
                             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Demande de conge de Karim A.</DropdownMenuItem>
-                            <DropdownMenuItem>Contrat de Yasmine C. a verifier</DropdownMenuItem>
-                            <DropdownMenuItem>Nouveau profil employe ajoute</DropdownMenuItem>
+                            {
+                                notificationsNotRead.map((notification: any) => (
+                                    <DropdownMenuItem key={notification.id}>{notification.data.message}</DropdownMenuItem>
+                                ))
+                            }
                         </DropdownMenuContent>
                     </DropdownMenu>
 
