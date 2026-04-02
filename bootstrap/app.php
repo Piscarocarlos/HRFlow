@@ -6,6 +6,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\RHMiddleware;
+use App\Http\Middleware\EmployeeMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
+        $middleware->alias([
+            'admin' => AdminMiddleware::class,
+            'rh' => RHMiddleware::class,
+            'employee' => EmployeeMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

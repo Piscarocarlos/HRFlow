@@ -38,7 +38,7 @@ export default function DepartmentsCreate() {
                                         type="text"
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
-                                    {errors.name ? <p className="text-sm text-rose-600">{errors.name}</p> : null}
+                                    {errors.name && <p className="text-sm text-rose-600">{errors.name}</p>}
                                 </div>
 
                                 <div className="space-y-2">

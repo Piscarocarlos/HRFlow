@@ -14,8 +14,8 @@ type NavigationItem = {
 
 const navigationItems: NavigationItem[] = [
     { label: 'Dashboard', href: '/dashboard', icon: House },
-    { label: 'Employes', href: '/employees', icon: Briefcase },
-    { label: 'Departements', href: '/departments', icon: Building2 },
+    { label: 'Employes', href: '/dashboard/employees', icon: Briefcase },
+    { label: 'Departements', href: '/dashboard/departments', icon: Building2 },
     { label: 'Contrats', href: '#', icon: FileText },
     { label: 'Conges', href: '#', icon: Plane },
 ];
