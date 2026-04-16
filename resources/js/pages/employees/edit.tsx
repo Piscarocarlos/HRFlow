@@ -1,7 +1,7 @@
 import { Form, Head, Link } from '@inertiajs/react';
 import type { ReactNode } from 'react';
 
-import { index as employeesIndex, store as employeesStore } from '@/actions/App/Http/Controllers/EmployeeController';
+import { index as employeesIndex, update as employeesUpdate } from '@/actions/App/Http/Controllers/EmployeeController';
 import AppLayout from '@/layouts/app-layout';
 
 type DepartmentOption = {
@@ -9,20 +9,34 @@ type DepartmentOption = {
     name: string;
 };
 
-type EmployeesCreateProps = {
+type EmployeeEdit = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    employee_number: string;
+    phone: string;
+    birth_date: string | null;
+    hire_date: string | null;
+    department_id: number;
+    status: string;
+};
+
+type EmployeesEditProps = {
+    employee: EmployeeEdit;
     departments: DepartmentOption[];
 };
 
-export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
+export default function EmployeesEdit({ employee, departments }: EmployeesEditProps) {
     return (
         <>
-            <Head title="Ajouter un employe" />
+            <Head title="Modifier un employe" />
 
             <section className="space-y-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">Ajouter un employe</h1>
-                        <p className="mt-1 text-sm text-slate-600">Creation du compte utilisateur et de la fiche employe.</p>
+                        <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">Modifier un employe</h1>
+                        <p className="mt-1 text-sm text-slate-600">Mettez a jour la fiche et le compte utilisateur.</p>
                     </div>
                     <Link
                         href={employeesIndex.url()}
@@ -33,7 +47,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                 </div>
 
                 <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <Form {...employeesStore.form()} className="grid grid-cols-1 gap-4 md:grid-cols-2" autoComplete='off'>
+                    <Form {...employeesUpdate.form(employee.id)} className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         {({ errors, processing }) => (
                             <>
                                 <div className="space-y-2">
@@ -44,6 +58,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="first_name"
                                         name="first_name"
                                         type="text"
+                                        defaultValue={employee.first_name}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.first_name ? <p className="text-sm text-rose-600">{errors.first_name}</p> : null}
@@ -56,6 +71,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="last_name"
                                         name="last_name"
                                         type="text"
+                                        defaultValue={employee.last_name}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.last_name ? <p className="text-sm text-rose-600">{errors.last_name}</p> : null}
@@ -68,7 +84,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="email"
                                         name="email"
                                         type="email"
-                                        autoComplete='off'
+                                        defaultValue={employee.email}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.email ? <p className="text-sm text-rose-600">{errors.email}</p> : null}
@@ -81,10 +97,13 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="employee_number"
                                         name="employee_number"
                                         type="text"
-                                        placeholder="EMP-001"
+                                        defaultValue={employee.employee_number}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.employee_number ? <p className="text-sm text-rose-600">{errors.employee_number}</p> : null}
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Nouveau mot de passe (optionnel)</p>
                                 </div>
                                 <div className="space-y-2">
                                     <label htmlFor="password" className="block text-sm font-medium text-slate-700">
@@ -95,18 +114,20 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         name="password"
                                         type="password"
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
+                                        autoComplete="new-password"
                                     />
                                     {errors.password ? <p className="text-sm text-rose-600">{errors.password}</p> : null}
                                 </div>
                                 <div className="space-y-2">
                                     <label htmlFor="password_confirmation" className="block text-sm font-medium text-slate-700">
-                                        Confirmation mot de passe
+                                        Confirmation
                                     </label>
                                     <input
                                         id="password_confirmation"
                                         name="password_confirmation"
                                         type="password"
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
+                                        autoComplete="new-password"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -117,6 +138,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="phone"
                                         name="phone"
                                         type="text"
+                                        defaultValue={employee.phone}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.phone ? <p className="text-sm text-rose-600">{errors.phone}</p> : null}
@@ -129,6 +151,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         id="birth_date"
                                         name="birth_date"
                                         type="date"
+                                        defaultValue={employee.birth_date ?? ''}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
                                     />
                                     {errors.birth_date ? <p className="text-sm text-rose-600">{errors.birth_date}</p> : null}
@@ -137,7 +160,13 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                     <label htmlFor="hire_date" className="block text-sm font-medium text-slate-700">
                                         Date d&apos;embauche
                                     </label>
-                                    <input id="hire_date" name="hire_date" type="date" className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring" />
+                                    <input
+                                        id="hire_date"
+                                        name="hire_date"
+                                        type="date"
+                                        defaultValue={employee.hire_date ?? ''}
+                                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
+                                    />
                                     {errors.hire_date ? <p className="text-sm text-rose-600">{errors.hire_date}</p> : null}
                                 </div>
                                 <div className="space-y-2">
@@ -147,12 +176,9 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                     <select
                                         id="department_id"
                                         name="department_id"
+                                        defaultValue={employee.department_id}
                                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring"
-                                        defaultValue=""
                                     >
-                                        <option value="" disabled>
-                                            Selectionner...
-                                        </option>
                                         {departments.map((d) => (
                                             <option key={d.id} value={d.id}>
                                                 {d.name}
@@ -165,7 +191,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                     <label htmlFor="status" className="block text-sm font-medium text-slate-700">
                                         Statut
                                     </label>
-                                    <select id="status" name="status" defaultValue="active" className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring">
+                                    <select id="status" name="status" defaultValue={employee.status} className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none ring-sky-300 focus:ring">
                                         <option value="active">Actif</option>
                                         <option value="inactive">Inactif</option>
                                     </select>
@@ -177,7 +203,7 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
                                         disabled={processing}
                                         className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                                     >
-                                        Enregistrer
+                                        Enregistrer les modifications
                                     </button>
                                 </div>
                             </>
@@ -189,4 +215,4 @@ export default function EmployeesCreate({ departments }: EmployeesCreateProps) {
     );
 }
 
-EmployeesCreate.layout = (page: ReactNode) => <AppLayout>{page}</AppLayout>;
+EmployeesEdit.layout = (page: ReactNode) => <AppLayout>{page}</AppLayout>;

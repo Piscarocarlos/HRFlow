@@ -1,7 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
-import React from 'react';
 import type { ReactNode } from 'react';
 
+import { index as contractsIndex } from '@/actions/App/Http/Controllers/ContractController';
+import { create as departmentsCreate } from '@/actions/App/Http/Controllers/DepartmentController';
+import { create as employeesCreate, index as employeesIndex } from '@/actions/App/Http/Controllers/EmployeeController';
 import AppLayout from '@/layouts/app-layout';
 
 const kpiCards = [
@@ -80,22 +82,28 @@ export default function Dashboard() {
                         <h2 className="text-lg font-semibold text-slate-900">Actions rapides</h2>
                         <div className="mt-4 space-y-3">
                             <Link
-                                href="/employees/create"
+                                href={employeesCreate.url()}
                                 className="block w-full rounded-xl border border-slate-300 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                             >
                                 Ajouter un employe
                             </Link>
                             <Link
-                                href="/departments/create"
+                                href={departmentsCreate.url()}
                                 className="block w-full rounded-xl border border-slate-300 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                             >
                                 Ajouter un departement
                             </Link>
                             <Link
-                                href="/employees"
+                                href={employeesIndex.url()}
                                 className="block w-full rounded-xl border border-slate-300 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                             >
-                                Verifier les conges
+                                Voir les employes
+                            </Link>
+                            <Link
+                                href={contractsIndex.url()}
+                                className="block w-full rounded-xl border border-slate-300 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                            >
+                                Voir les contrats
                             </Link>
                         </div>
                     </article>

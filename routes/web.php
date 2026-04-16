@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [AppController::class, 'dashboard'])->name('dashboard');
 
-        Route::resource('employees', EmployeeController::class);
+        Route::middleware('rh')->group(function () {
+            Route::resource('employees', EmployeeController::class);
+            Route::resource('contracts', ContractController::class);
+        });
 
         Route::middleware('admin')->group(function () {
             Route::resource('departments', DepartmentController::class);

@@ -3,7 +3,7 @@
 use App\Models\User;
 
 it('renders design pages', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('employees.index'))->assertOk();
     $this->actingAs($user)->get(route('employees.create'))->assertOk();

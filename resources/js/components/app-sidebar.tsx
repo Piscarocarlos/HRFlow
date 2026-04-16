@@ -16,7 +16,7 @@ const navigationItems: NavigationItem[] = [
     { label: 'Dashboard', href: '/dashboard', icon: House },
     { label: 'Employes', href: '/dashboard/employees', icon: Briefcase },
     { label: 'Departements', href: '/dashboard/departments', icon: Building2 },
-    { label: 'Contrats', href: '#', icon: FileText },
+    { label: 'Contrats', href: '/dashboard/contracts', icon: FileText },
     { label: 'Conges', href: '#', icon: Plane },
 ];
 
